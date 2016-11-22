@@ -3,6 +3,7 @@ package controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -19,8 +20,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -45,7 +48,28 @@ public class AlbumController {
 	
 	public void updateList(){
 		photoList.clear();
-		for(Photo photo: LoginController.currentUser.albums.get(albumIndex).photos) photoList.add(photo.caption);
+		int i = 0;
+		for(Photo photo: LoginController.currentUser.albums.get(albumIndex).photos){ 
+			
+		photoList.add(i + "");
+		
+		listView.setCellFactory(param -> new ListCell<String>() {
+            private ImageView imageView = new ImageView();
+            @Override
+            public void updateItem(String name, boolean empty) {
+                super.updateItem(name, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(name);
+                    imageView.setImage(photo.thumbnail);
+                    
+                    setGraphic(imageView);
+                }
+            }
+        });
+		}
 		
 		listView.setItems(photoList);
 	}
@@ -80,19 +104,18 @@ public class AlbumController {
 		    fileChooser.getExtensionFilters().add(imageFilter);
 		    File file = null;
 		    file = fileChooser.showOpenDialog(stage);
-		    
-		    
-		    if(file != null){
-		    BufferedImage image = null;
+		    String imgURL = null;
 		    try {
-		        image = ImageIO.read(file);
-		    } catch (IOException e1) {
-		    }
+				imgURL = file.toURI().toURL().toExternalForm();
+			} catch (MalformedURLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		   
 		    
-		    LoginController.currentUser.albums.get(albumIndex).photos.add(new Photo(image));
+		    	LoginController.currentUser.albums.get(albumIndex).photos.add(new Photo(new Image(imgURL)));
+		    	updateList();
 		    }
-		 }
-		 
 	}
 	
 	public void pressphotoButton(ActionEvent e) {
