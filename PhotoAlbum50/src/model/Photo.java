@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,7 +17,10 @@ public class Photo implements Serializable {
 	public Calendar calendar;
 	public ArrayList<Tag> tags;
 	
-	public Photo(Image image){
+	public Photo(Image image, Calendar calendar){
 		this.thumbnail = image;
+		this.calendar = calendar;
+		this.calendar.set(Calendar.MILLISECOND, 0);
+		tags = new ArrayList<Tag>();
 	}
 }
