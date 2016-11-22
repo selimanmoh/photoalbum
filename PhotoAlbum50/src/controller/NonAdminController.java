@@ -11,12 +11,18 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.stage.Stage;
 import model.Album;
 
 public class NonAdminController {
 	
 	@FXML Button deleteAlbum, addAlbum, editAlbum, logout;
 	@FXML TextArea displayusername = new TextArea(LoginController.currentUser.name + "Albums");
+	Stage stage;
+
+	public void start(Stage primaryStage) {
+		stage = primaryStage;
+	}
 	
 	public void logoutButton(ActionEvent e) {
 		 Button b = (Button)e.getSource();
@@ -79,5 +85,6 @@ public class NonAdminController {
 		 }
 		 
 	}
+
 
 }

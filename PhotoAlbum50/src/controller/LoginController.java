@@ -19,17 +19,16 @@ public class LoginController {
 	
 	@FXML Button login;
 	@FXML TextField username = new TextField();
-	public ArrayList<User> users;
+	public static ArrayList<User> users;
 	public static User currentUser;
+	public Stage stage;
 	
 	
 	public void start(Stage primaryStage) {
 		
 		//Do serializable stuff here
 		users = new ArrayList<User>();
-		
-		if(!users.contains(new User("Admin")))
-			users.add(new User("Admin"));
+		stage = primaryStage;
 		
 		
 	}
@@ -53,37 +52,55 @@ public class LoginController {
 				
 				if(username.getText().equals("Admin")){				     
 
-					Scene scene = null;
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(getClass().getResource("/view/adminhome.fxml"));
+					AnchorPane root = null;
 					try {
-						scene = new Scene(FXMLLoader.load(getClass().getResource("/view/adminhome.fxml")), 630, 451);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} 
-				    ((Stage)(b.getScene().getWindow())).setScene(scene);
+						root = (AnchorPane)loader.load();
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					AdminSystemController controller = loader.getController();
+					controller.start(stage);
+					Scene scene = new Scene(root);
+					stage.setScene(scene);
 				}
 				else if(users.contains(new User(username.getText()))){
 					
 					currentUser = users.get(users.indexOf(new User(username.getText())));
-					Scene scene = null;
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(getClass().getResource("/view/nonadminhome.fxml"));
+					AnchorPane root = null;
 					try {
-						scene = new Scene(FXMLLoader.load(getClass().getResource("/view/nonadminhome.fxml")), 630, 451);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} 
-				    ((Stage)(b.getScene().getWindow())).setScene(scene);	
+						root = (AnchorPane)loader.load();
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					NonAdminController controller = loader.getController();
+					controller.start(stage);
+					Scene scene = new Scene(root);
+					stage.setScene(scene);
+				    
 				}
 				else{
 					
 					currentUser = new User(username.getText());
 					users.add(currentUser);
-					Scene scene = null;
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(getClass().getResource("/view/nonadminhome.fxml"));
+					AnchorPane root = null;
 					try {
-						scene = new Scene(FXMLLoader.load(getClass().getResource("/view/nonadminhome.fxml")), 630, 451);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} 
-				    ((Stage)(b.getScene().getWindow())).setScene(scene);
-				    AdminSystemController.start();
+						root = (AnchorPane)loader.load();
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					NonAdminController controller = loader.getController();
+					controller.start(stage);
+					Scene scene = new Scene(root);
+					stage.setScene(scene);
 				}
 				/*Find the user and then login
 				 * load display for new admin view if user is an admin
