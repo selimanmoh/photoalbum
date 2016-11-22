@@ -31,20 +31,20 @@
       </Button>
       <Label fx:id="displayusername" layoutX="14.0" layoutY="8.0" prefHeight="41.0" prefWidth="181.0" text="User Albums">
          <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="System Bold" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="122.0" layoutY="383.0" prefHeight="21.0" prefWidth="135.0" text="Number of Photos:">
+      <Label layoutX="18.0" layoutY="382.0" prefHeight="21.0" prefWidth="135.0" text="Number of Photos:">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="123.0" layoutY="404.0" prefHeight="21.0" prefWidth="135.0" text="Oldest Photo Date:">
+      <Label layoutX="19.0" layoutY="403.0" prefHeight="21.0" prefWidth="135.0" text="Oldest Photo Date:">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="123.0" layoutY="425.0" prefHeight="21.0" prefWidth="171.0" text="Date Range for Photos:">
+      <Label layoutX="19.0" layoutY="424.0" prefHeight="21.0" prefWidth="171.0" text="Date Range for Photos:">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -54,17 +54,17 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="numPhotos" layoutX="271.0" layoutY="383.0" prefHeight="21.0" prefWidth="71.0">
+      <Label fx:id="numPhotos" layoutX="167.0" layoutY="382.0" prefHeight="21.0" prefWidth="71.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="oldPhoto" layoutX="272.0" layoutY="404.0" prefHeight="21.0" prefWidth="411.0">
+      <Label fx:id="oldPhoto" layoutX="168.0" layoutY="403.0" prefHeight="21.0" prefWidth="498.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="dateRange" layoutX="301.0" layoutY="425.0" prefHeight="21.0" prefWidth="451.0">
+      <Label fx:id="dateRange" layoutX="197.0" layoutY="424.0" prefHeight="21.0" prefWidth="580.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -74,5 +74,6 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
+      <Button fx:id="searchPhotos" layoutX="561.0" layoutY="13.0" mnemonicParsing="false" onAction="#search" text="Search Photos" />
    </children>
 </AnchorPane>

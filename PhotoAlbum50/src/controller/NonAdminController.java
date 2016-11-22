@@ -56,7 +56,7 @@ public class NonAdminController {
 		    		numPhotos.setText(""+temp.photos.size());
 		    		if(dates.size()>0){
 		    			oldPhoto.setText(dates.get(0).getTime().toString());
-		    			dateRange.setText(dates.get(dates.size()-1).getTime().toString() + " to " + dates.get(0).getTime().toString());
+		    			dateRange.setText(dates.get(0).getTime().toString() + " to " + dates.get(dates.size()-1).getTime().toString());
 		    		}
 		    		else{
 		    			oldPhoto.setText("No Photos");
@@ -209,7 +209,6 @@ public class NonAdminController {
 	
 	public void openAlbum(ActionEvent e){
 		
-		Button b = (Button)e.getSource();
 		int openIndex = listView.getSelectionModel().getSelectedIndex();
 		 
 		if(openIndex == -1){
@@ -235,5 +234,22 @@ public class NonAdminController {
 			 
 		 }
 		
+	}
+	
+	public void search(ActionEvent e){
+		
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/view/photodisplay.fxml"));
+		AnchorPane root = null;
+		try {
+			root = (AnchorPane)loader.load();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		SearchController controller = loader.getController();
+		controller.start(stage);
+		Scene scene = new Scene(root);
+		stage.setScene(scene);		 
 	}
 }
