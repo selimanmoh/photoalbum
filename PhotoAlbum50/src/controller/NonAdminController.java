@@ -35,7 +35,7 @@ import sun.util.calendar.BaseCalendar.Date;
 
 public class NonAdminController {
 	
-	@FXML Button deleteAlbum, addAlbum, editAlbum, logout;
+	@FXML Button deleteAlbum, addAlbum, editAlbum, logout, openAlbum;
 	@FXML Label displayusername, oldPhoto, numPhotos, dateRange;
 	@FXML ListView<String> listView = new ListView<String>();
 	ObservableList<String> albumList = FXCollections.observableArrayList();
@@ -136,7 +136,7 @@ public class NonAdminController {
 				 Alert alert = new Alert(AlertType.INFORMATION);
 				 alert.setTitle("Delete Album");
 				 alert.setHeaderText("Are you sure you want to delete this album?");
-				 alert.setContentText("Album Name: " + LoginController.currentUser.albums.get(removedIndex).name);
+				 alert.setContentText("Album Name: " + albums.get(removedIndex).name);
 
 				 Optional<ButtonType> result = alert.showAndWait();
 	 		   
@@ -158,7 +158,7 @@ public class NonAdminController {
 			 Optional<String> result = adddialog.showAndWait();
 			 if (result.isPresent())
 			 {
-				if(!result.get().isEmpty()&& !LoginController.currentUser.albums.contains(new Album(result.get()))){
+				if(!result.get().isEmpty()&& !albums.contains(new Album(result.get()))){
 					LoginController.currentUser.albums.add(new Album(result.get()));
 					updateList();
 				}
@@ -173,20 +173,58 @@ public class NonAdminController {
 		 
 		 else if(b == editAlbum)
 		 {
-			 TextInputDialog editdialog = new TextInputDialog(LoginController.currentUser.albums.get(0).name);
-			 //dialog.initOwner(mainStage); 
-			 editdialog.setTitle("Edit Album Name");
-			 editdialog.setHeaderText("Edit Album Name");
-			 editdialog.setContentText("Album name: ");  
+			 int renameIndex = listView.getSelectionModel().getSelectedIndex();
 			 
-			 Optional<String> result = editdialog.showAndWait();
-			 if (result.isPresent())
-			 { 
-				//obsList.set(index, result.get()); 
-			 } 
-		 }
+			 if(renameIndex == -1){
+				Alert alert = new Alert (AlertType.INFORMATION);
+				alert.setTitle("Login Failure");
+				alert.setHeaderText("Nothing is selected for you to rename!");
+				alert.showAndWait();
+			 }
+			 else{
+				 			 
+				 TextInputDialog editdialog = new TextInputDialog("Rename Album name");
+				 editdialog.setTitle("Rename Album Name");
+				 editdialog.setHeaderText("Rename Album Name");
+				 editdialog.setContentText("Album name: " + albums.get(renameIndex).name);  
+			 
+				 Optional<String> result = editdialog.showAndWait();
+				 if (result.isPresent())
+				 { 
+					 if((!result.get().isEmpty() && !albums.contains(new Album(result.get()))) || 
+							 !result.get().isEmpty() && result.get().equals(albums.get(renameIndex).name)){
+						 albums.get(renameIndex).name = result.get();
+						 updateList();
+					 }
+					 else{
+						 Alert alert = new Alert (AlertType.INFORMATION);
+						 alert.setTitle("Login Failure");
+						 alert.setHeaderText("You must enter a unique and proper album name");
+						 alert.showAndWait();	
+					 }
+				 } 
+			 }
 		 
+		 }
+
+
 	}
-
-
+	
+	public void openAlbum(ActionEvent e){
+		
+		Button b = (Button)e.getSource();
+		int openIndex = listView.getSelectionModel().getSelectedIndex();
+		 
+		if(openIndex == -1){
+			Alert alert = new Alert (AlertType.INFORMATION);
+			alert.setTitle("Login Failure");
+			alert.setHeaderText("Nothing is selected for you to open!");
+			alert.showAndWait();
+		}
+		else{
+			
+			 
+		 }
+		
+	}
 }

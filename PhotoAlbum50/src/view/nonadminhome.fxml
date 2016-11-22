@@ -8,13 +8,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NonAdminController">
    <children>
-      <Button fx:id="addAlbum" layoutX="192.0" layoutY="47.0" mnemonicParsing="false" onAction="#pressalbumButton" prefHeight="29.0" prefWidth="103.0" text="Add Album">
+      <Button fx:id="addAlbum" layoutX="344.0" layoutY="113.0" mnemonicParsing="false" onAction="#pressalbumButton" prefHeight="29.0" prefWidth="103.0" text="Add Album">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <ListView fx:id="listView" layoutX="-5.0" layoutY="104.0" prefHeight="249.0" prefWidth="795.0" />
-      <Button fx:id="deleteAlbum" layoutX="502.0" layoutY="47.0" mnemonicParsing="false" onAction="#pressalbumButton" prefHeight="29.0" prefWidth="116.0" text="Delete Album">
+      <ListView fx:id="listView" layoutX="-5.0" layoutY="104.0" prefHeight="249.0" prefWidth="319.0" />
+      <Button fx:id="deleteAlbum" layoutX="337.0" layoutY="200.0" mnemonicParsing="false" onAction="#pressalbumButton" prefHeight="31.0" prefWidth="116.0" text="Delete Album">
          <font>
             <Font size="15.0" />
          </font>
@@ -24,7 +24,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="editAlbum" layoutX="345.0" layoutY="46.0" mnemonicParsing="false" onAction="#pressalbumButton" prefHeight="29.0" prefWidth="103.0" text="Edit Album">
+      <Button fx:id="editAlbum" layoutX="333.0" layoutY="154.0" mnemonicParsing="false" onAction="#pressalbumButton" prefHeight="31.0" prefWidth="124.0" text="Rename Album">
          <font>
             <Font size="15.0" />
          </font>
@@ -64,10 +64,15 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="rangeDate" layoutX="651.0" layoutY="383.0" prefHeight="21.0" prefWidth="96.0">
+      <Label fx:id="dateRange" layoutX="651.0" layoutY="383.0" prefHeight="21.0" prefWidth="96.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
+      <Button fx:id="openAlbum" layoutX="333.0" layoutY="245.0" mnemonicParsing="false" onAction="#openAlbum" prefHeight="31.0" prefWidth="124.0" text="Open Album">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
