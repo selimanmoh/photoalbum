@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import model.Photo;
 import javafx.scene.control.Alert.AlertType;
 
 public class AlbumController {
@@ -59,7 +60,7 @@ public class AlbumController {
 		 
 		 else if(b == editCaption)
 		 {
-			 TextInputDialog photoeditdialog = new TextInputDialog(photo.getCaption());
+			 TextInputDialog photoeditdialog = new TextInputDialog(photo.caption);
 			 //dialog.initOwner(mainStage); 
 			 photoeditdialog.setTitle("Edit Photo Caption");
 			 photoeditdialog.setHeaderText("Edit Photo Caption");
