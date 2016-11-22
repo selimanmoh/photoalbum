@@ -26,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import model.Album;
 import model.Photo;
+import model.Tag;
 import javafx.scene.layout.AnchorPane;
 
 public class SearchController {
@@ -36,6 +37,7 @@ public class SearchController {
 	@FXML TextField date1, date2, tagText;
 	ObservableList<Image> photoList = FXCollections.observableArrayList();
 	ArrayList<Photo> searchList = new ArrayList<Photo>();
+	ArrayList<Photo> fullList = new ArrayList<Photo>();
 	Stage stage;
 
 	
@@ -60,6 +62,7 @@ public class SearchController {
             }
         });
 		for(Album album: LoginController.currentUser.albums) searchList.addAll(album.photos);
+		fullList.addAll(searchList);
 		updateList();
 		
 	}
@@ -97,6 +100,9 @@ public class SearchController {
 	public void pressSearch(ActionEvent e) {
 		 Button b = (Button)e.getSource();
 		 
+		 searchList.clear();
+		 searchList.addAll(fullList);
+		 
 		 if(b == searchDate)
 		 {
 			  date1.setDisable(false);
@@ -104,6 +110,12 @@ public class SearchController {
 			  dateGO.setDisable(false);
 			  searchTags.setDisable(true);
 			
+		 }
+		 else if(b == searchTags){
+			 
+			 tagText.setDisable(false);
+			 tagGO.setDisable(false);
+			 searchDate.setDisable(true);
 		 }
 	}
 	
@@ -153,12 +165,43 @@ public class SearchController {
 					
 			}
 		}
+		else if(b == tagGO){
+			
+			if(tagText.getText().isEmpty()){
+				
+				Alert alert = new Alert (AlertType.INFORMATION);
+				alert.setTitle("Option failure");
+				alert.setHeaderText("Tag must be specified for this search!");
+				alert.showAndWait();
+				tagText.setDisable(true);
+				tagGO.setDisable(true);
+				searchDate.setDisable(false);
+			}
+			else{
+				String tag = tagText.getText();
+				tagParse(tag.substring(0,tag.indexOf(',')), tag.substring(tag.indexOf(',')+1, tag.length()));
+				tagText.setDisable(true);
+				tagGO.setDisable(true);
+				searchDate.setDisable(false);
+			}
+			
+		}
 	}
 	
 	public void calendarParse(Calendar cal1, Calendar cal2){
 		ArrayList<Photo> temp = new ArrayList<Photo>();
 		
 		for(Photo photo: searchList) if(!cal1.after(photo.calendar) && !cal2.before(photo.calendar)) temp.add(photo);
+		
+		searchList.clear();
+		searchList.addAll(temp);
+		updateList();
+	}
+	
+	public void tagParse(String type, String value){
+		ArrayList<Photo> temp = new ArrayList<Photo>();
+		
+		for(Photo photo: searchList) if(photo.tags.contains(new Tag(type,value))) temp.add(photo);
 		
 		searchList.clear();
 		searchList.addAll(temp);
