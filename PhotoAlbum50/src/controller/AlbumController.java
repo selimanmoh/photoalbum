@@ -35,8 +35,8 @@ import javafx.scene.layout.AnchorPane;
 public class AlbumController {
 	
 	@FXML Button deletePhoto, addPhoto, editCaption, tag, movePhoto, displayPhoto, logout;
-	@FXML ListView<String> listView = new ListView<String>();
-	ObservableList<String> photoList = FXCollections.observableArrayList();
+	@FXML ListView<Image> listView = new ListView<Image>();
+	ObservableList<Image> photoList = FXCollections.observableArrayList();
 	Stage stage;
 	int albumIndex;
 	
@@ -44,32 +44,30 @@ public class AlbumController {
 		// TODO Auto-generated method stub
 		stage = primaryStage;
 		albumIndex = LoginController.currentUser.albums.indexOf(primaryAlbum);
+		
+		listView.setCellFactory(param -> new ListCell<Image>() {
+            private ImageView imageView = new ImageView();
+            @Override
+            public void updateItem(Image photo, boolean empty) {
+                super.updateItem(photo, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    imageView.setImage(photo);
+                    imageView.setFitHeight(50);
+                    imageView.setFitWidth(50);
+                    setGraphic(imageView);
+                    
+                }
+                
+                
+            }
+        });
 	}
 	
 	public void updateList(){
 		photoList.clear();
-		int i = 0;
-		for(Photo photo: LoginController.currentUser.albums.get(albumIndex).photos){ 
-			
-		photoList.add(i + "");
-		
-		listView.setCellFactory(param -> new ListCell<String>() {
-            private ImageView imageView = new ImageView();
-            @Override
-            public void updateItem(String name, boolean empty) {
-                super.updateItem(name, empty);
-                if (empty) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(name);
-                    imageView.setImage(photo.thumbnail);
-                    
-                    setGraphic(imageView);
-                }
-            }
-        });
-		}
+		for(Photo photo: LoginController.currentUser.albums.get(albumIndex).photos) photoList.add(photo.thumbnail);
 		
 		listView.setItems(photoList);
 	}
@@ -135,13 +133,11 @@ public class AlbumController {
 				 Alert alert = new Alert(AlertType.INFORMATION);
 				 alert.setTitle("Delete Album");
 				 alert.setHeaderText("Are you sure you want to delete this photo?");
-				 alert.setContentText("Album Name: " + LoginController.currentUser.albums.get(removedIndex).name);
-
 				 Optional<ButtonType> result = alert.showAndWait();
 	 		   
 		 		  if (result.isPresent() && result.get() == ButtonType.OK) {
 			 			 LoginController.currentUser.albums.get(albumIndex).photos.remove(LoginController.currentUser.albums.get(albumIndex).photos.get(removedIndex));
-			 			 
+			 			 updateList();
 	 		  }
 	 		 
 	 		   
