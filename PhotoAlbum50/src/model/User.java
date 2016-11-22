@@ -13,6 +13,7 @@ public class User implements Serializable {
 	
 	public User(String name){
 		this.name = name;
+		albums = new ArrayList<Album>();
 	}
 	
 	@Override

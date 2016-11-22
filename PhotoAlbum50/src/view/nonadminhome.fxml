@@ -13,7 +13,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <ListView fx:id="listView" layoutX="-5.0" layoutY="104.0" prefHeight="333.0" prefWidth="795.0" />
+      <ListView fx:id="listView" layoutX="-5.0" layoutY="104.0" prefHeight="249.0" prefWidth="795.0" />
       <Button fx:id="deleteAlbum" layoutX="502.0" layoutY="47.0" mnemonicParsing="false" onAction="#pressalbumButton" prefHeight="29.0" prefWidth="116.0" text="Delete Album">
          <font>
             <Font size="15.0" />
@@ -32,6 +32,41 @@
       <Label fx:id="displayusername" layoutX="14.0" layoutY="8.0" prefHeight="41.0" prefWidth="181.0" text="User Albums">
          <font>
             <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="228.0" layoutY="383.0" prefHeight="21.0" prefWidth="135.0" text="Number of Photos:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="228.0" layoutY="429.0" prefHeight="21.0" prefWidth="135.0" text="Oldest Photo Date:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="473.0" layoutY="383.0" prefHeight="21.0" prefWidth="171.0" text="Date Range for Photos:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="26.0" layoutY="77.0" prefHeight="21.0" prefWidth="135.0" text="Album Name">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="numPhotos" layoutX="377.0" layoutY="383.0" prefHeight="21.0" prefWidth="71.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="oldPhoto" layoutX="377.0" layoutY="429.0" prefHeight="21.0" prefWidth="96.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="rangeDate" layoutX="651.0" layoutY="383.0" prefHeight="21.0" prefWidth="96.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
    </children>

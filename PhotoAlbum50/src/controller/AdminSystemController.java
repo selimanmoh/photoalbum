@@ -87,7 +87,7 @@ public class AdminSystemController{
 		if(b == deleteUserOk){
 			int removedIndex = listView.getSelectionModel().getSelectedIndex();
 			if(removedIndex != -1){
-				LoginController.users.remove(removedIndex);
+				LoginController.users.remove(new User(userList.get(removedIndex)));
 				updateList();
 			}
 			else{
