@@ -11,6 +11,7 @@ import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -34,7 +35,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class AlbumController {
 	
-	@FXML Button deletePhoto, addPhoto, editCaption, tag, movePhoto, displayPhoto, logout, addTags, cancelTags, deleteTags, copyPhoto;
+	@FXML Button deletePhoto, addPhoto, editCaption, tag, movePhoto, displayPhoto, logout, addTags, cancelTags, deleteTags, copyPhoto, nextSlide, previousSlide, backAlbums;
 	@FXML ListView<Image> listView = new ListView<Image>();
 	@FXML TextField tagType, tagValue;
 	@FXML ImageView imageDisplay;
@@ -42,6 +43,7 @@ public class AlbumController {
 	ObservableList<Image> photoList = FXCollections.observableArrayList();
 	Stage stage;
 	int albumIndex;
+	int slideSequence = 0;
 	
 	public void start(Stage primaryStage, Album primaryAlbum) {
 		// TODO Auto-generated method stub
@@ -66,6 +68,7 @@ public class AlbumController {
                 }
             }
         });
+		updateList();
 		
 	}
 	
@@ -128,6 +131,22 @@ public class AlbumController {
 				alert.showAndWait();
 		    	}
 		    }
+		 }
+		 else if(b == backAlbums){
+			 
+			 FXMLLoader loader = new FXMLLoader();
+			 loader.setLocation(getClass().getResource("/view/nonadminhome.fxml"));
+			 AnchorPane root = null;
+				try {
+					root = (AnchorPane)loader.load();
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+			 NonAdminController controller = loader.getController();
+			 controller.start(stage);
+			 Scene scene = new Scene(root);
+			 stage.setScene(scene);		 
 		 }
 	}
 	
@@ -206,9 +225,72 @@ public class AlbumController {
 		 }
 		 else if(b == movePhoto)
 		 {
-			 //Implement
+			 int moveIndex = listView.getSelectionModel().getSelectedIndex();
+			 
+			 if(moveIndex == -1){
+				Alert alert = new Alert (AlertType.INFORMATION);
+				alert.setTitle("Option failure");
+				alert.setHeaderText("Nothing is selected for you to move!");
+				alert.showAndWait();
+			 }
+			 else{
+				 TextInputDialog photoeditdialog = new TextInputDialog();
+				 photoeditdialog.setTitle("Move Selected Photo to Another Album");
+				 photoeditdialog.setHeaderText("Move Photo");
+				 photoeditdialog.setContentText("Move to Album: ");  
+			 
+				 Optional<String> result = photoeditdialog.showAndWait();
+	 		   
+		 		  if (result.isPresent()) {
+		 			  if(LoginController.currentUser.albums.contains(new Album(result.get()))){
+		 				 int newIndex = LoginController.currentUser.albums.indexOf(new Album(result.get()));
+				 		 LoginController.currentUser.albums.get(newIndex).photos.add(LoginController.currentUser.albums.get(albumIndex).photos.get(moveIndex)); //Moves the photo
+			 			 LoginController.currentUser.albums.get(albumIndex).photos.remove(moveIndex);
+			 			 updateList();
+		 			  }
+		 			  else{
+		 				 Alert alert = new Alert (AlertType.INFORMATION);
+		 				 alert.setTitle("Option failure");
+		 				 alert.setHeaderText("That album does not exist!");
+		 				 alert.showAndWait();		 				  
+		 			  }
+		 		  }
+		 		
+	 		 }
 		 }
-		 
+		 else if(b == copyPhoto){
+			 
+			 int copyIndex = listView.getSelectionModel().getSelectedIndex();
+			 
+			 if(copyIndex == -1){
+				Alert alert = new Alert (AlertType.INFORMATION);
+				alert.setTitle("Option failure");
+				alert.setHeaderText("Nothing is selected for you to copy!");
+				alert.showAndWait();
+			 }
+			 else{
+				 TextInputDialog photoeditdialog = new TextInputDialog();
+				 photoeditdialog.setTitle("Copy Selected Photo to Another Album");
+				 photoeditdialog.setHeaderText("Copy Photo");
+				 photoeditdialog.setContentText("Copy to Album: ");  
+			 
+				 Optional<String> result = photoeditdialog.showAndWait();
+	 		   
+		 		  if (result.isPresent()) {
+		 			  if(LoginController.currentUser.albums.contains(new Album(result.get()))){ //Album exists
+		 				 int newIndex = LoginController.currentUser.albums.indexOf(new Album(result.get()));
+				 		 LoginController.currentUser.albums.get(newIndex).photos.add(LoginController.currentUser.albums.get(albumIndex).photos.get(copyIndex)); //Moves the photo
+		 			  }
+		 			  else{
+		 				 Alert alert = new Alert (AlertType.INFORMATION);
+		 				 alert.setTitle("Option failure");
+		 				 alert.setHeaderText("That album does not exist!");
+		 				 alert.showAndWait();		 				  
+		 			  }
+		 		  }
+		 		
+	 		 }			 
+		 }
 		 else if(b == displayPhoto)
 		 {
 			 int displayIndex = listView.getSelectionModel().getSelectedIndex();
@@ -241,6 +323,26 @@ public class AlbumController {
 		return tagFill;
 	}
 	
+	public void slideshow(ActionEvent e){
+		Button b = (Button)e.getSource();
+		
+		if(b == nextSlide){
+			if(slideSequence == LoginController.currentUser.albums.get(albumIndex).photos.size())
+				slideSequence = 0;
+			listView.getSelectionModel().select(slideSequence++);
+			ActionEvent ae = new ActionEvent(displayPhoto,null);
+			pressphotoButton(ae);
+		}
+		else if( b == previousSlide){
+			
+			if(slideSequence < 0)
+				slideSequence = LoginController.currentUser.albums.get(albumIndex).photos.size() - 1;
+			listView.getSelectionModel().select(slideSequence--);
+			ActionEvent ae = new ActionEvent(displayPhoto,null);
+			pressphotoButton(ae);
+		}
+	}
+	
 	public void extraPress(ActionEvent e){
 		Button b = (Button)e.getSource();
 		int tagIndex = listView.getSelectionModel().getSelectedIndex();
@@ -257,7 +359,7 @@ public class AlbumController {
 				
 				if(!LoginController.currentUser.albums.get(albumIndex).photos.get(tagIndex).tags.contains(new Tag(tagType.getText(), tagValue.getText()))){
 					LoginController.currentUser.albums.get(albumIndex).photos.get(tagIndex).tags.add(new Tag(tagType.getText(),tagValue.getText()));
-					updateList();//
+					updateList();//unneeded
 				}
 				else{
 					Alert alert = new Alert (AlertType.INFORMATION);

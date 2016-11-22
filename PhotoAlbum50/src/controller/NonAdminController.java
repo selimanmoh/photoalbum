@@ -51,13 +51,12 @@ public class NonAdminController {
 		    @Override
 		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 		    	if(newValue!=null){
-		    		DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		    		Album temp = LoginController.currentUser.albums.get(LoginController.currentUser.albums.indexOf(new Album(listView.getSelectionModel().getSelectedItem()))); //get item currently selected
 		    		ArrayList<Calendar> dates = rangeDates(temp);
 		    		numPhotos.setText(""+temp.photos.size());
 		    		if(dates.size()>0){
-		    			oldPhoto.setText(df.format(dates.get(0)));
-		    			dateRange.setText(df.format(dates.get(dates.size()-1)) + " to " + df.format(dates.get(0)));
+		    			oldPhoto.setText(dates.get(0).getTime().toString());
+		    			dateRange.setText(dates.get(dates.size()-1).getTime().toString() + " to " + dates.get(0).getTime().toString());
 		    		}
 		    		else{
 		    			oldPhoto.setText("No Photos");

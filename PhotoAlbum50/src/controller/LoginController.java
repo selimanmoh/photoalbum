@@ -38,7 +38,7 @@ public class LoginController {
 		 
 		 if(b == login)
 		 {
-			if(username.getText()==null)
+			if(username.getText()==null || username.getText().isEmpty())
 			{
 				Alert alert = new Alert (AlertType.INFORMATION);
 	    		alert.setTitle("Login Failure");

@@ -69,26 +69,25 @@
          </font>
       </Button>
       <ImageView fx:id="imageDisplay" fitHeight="364.0" fitWidth="648.0" layoutX="78.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="11.0" layoutY="330.0" mnemonicParsing="false" text="Button" />
-      <Label layoutX="762.0" layoutY="589.0" text="Caption:" />
-      <Label fx:id="displayCaption" layoutX="881.0" layoutY="589.0" prefHeight="21.0" prefWidth="153.0">
+      <Label layoutX="730.0" layoutY="589.0" text="Caption:" />
+      <Label fx:id="displayCaption" layoutX="796.0" layoutY="587.0" prefHeight="21.0" prefWidth="244.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="727.0" layoutY="614.0" text="Datetime of Capture:" />
-      <Label fx:id="displayDate" layoutX="881.0" layoutY="614.0" prefHeight="21.0" prefWidth="153.0">
+      <Label layoutX="727.0" layoutY="614.0" text="Datetime:" />
+      <Label fx:id="displayDate" layoutX="796.0" layoutY="612.0" prefHeight="21.0" prefWidth="244.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="displayTags" layoutX="904.0" layoutY="330.0" prefHeight="195.0" prefWidth="124.0">
+      <Label fx:id="displayTags" layoutX="871.0" layoutY="336.0" prefHeight="195.0" prefWidth="173.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="863.0" layoutY="345.0" text="Tags:" />
-      <Label fx:id="displayalbumname" layoutX="11.0" layoutY="2.0" prefHeight="55.0" prefWidth="350.0">
+      <Label layoutX="830.0" layoutY="351.0" text="Tags:" />
+      <Label fx:id="displayalbumname" layoutX="11.0" layoutY="2.0" prefHeight="55.0" prefWidth="468.0">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
@@ -103,5 +102,13 @@
             <Font size="15.0" />
          </font>
       </Button>
+      <Button fx:id="nextSlide" layoutX="731.0" layoutY="330.0" mnemonicParsing="false" onAction="#slideshow" text="Next" />
+      <Button fx:id="previousSlide" layoutX="729.0" layoutY="373.0" mnemonicParsing="false" onAction="#slideshow" text="Previous" />
+      <Button fx:id="backAlbums" layoutY="564.0" mnemonicParsing="false" onAction="#pressButton" prefHeight="92.0" prefWidth="65.0" text="Back">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Label layoutX="733.0" layoutY="303.0" text="Slideshow" />
    </children>
 </AnchorPane>
