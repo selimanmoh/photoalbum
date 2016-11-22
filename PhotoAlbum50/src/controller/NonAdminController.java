@@ -40,12 +40,10 @@ public class NonAdminController {
 	@FXML ListView<String> listView = new ListView<String>();
 	ObservableList<String> albumList = FXCollections.observableArrayList();
 	Stage stage;
-	ArrayList<Album> albums;
 
 	public void start(Stage primaryStage) {
 		displayusername.setText(LoginController.currentUser.name + " Albums");
 		stage = primaryStage;
-		albums = LoginController.currentUser.albums;
 		
 		updateList();
 
@@ -54,7 +52,7 @@ public class NonAdminController {
 		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 		    	if(newValue!=null){
 		    		DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		    		Album temp = albums.get(albums.indexOf(new Album(listView.getSelectionModel().getSelectedItem()))); //get item currently selected
+		    		Album temp = LoginController.currentUser.albums.get(LoginController.currentUser.albums.indexOf(new Album(listView.getSelectionModel().getSelectedItem()))); //get item currently selected
 		    		ArrayList<Calendar> dates = rangeDates(temp);
 		    		numPhotos.setText(""+temp.photos.size());
 		    		if(dates.size()>0){
@@ -101,19 +99,19 @@ public class NonAdminController {
 		 if(b == logout)
 		 {
 			 LoginController.currentUser = null; //current user is reset
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("/view/Login.fxml"));
-				AnchorPane root = null;
+			 FXMLLoader loader = new FXMLLoader();
+			 loader.setLocation(getClass().getResource("/view/Login.fxml"));
+			 AnchorPane root = null;
 				try {
 					root = (AnchorPane)loader.load();
 					} catch (IOException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
-				LoginController controller = loader.getController();
-				controller.start(stage);
-				Scene scene = new Scene(root);
-				stage.setScene(scene);		 
+			 LoginController controller = loader.getController();
+			 controller.start(stage);
+			 Scene scene = new Scene(root);
+			 stage.setScene(scene);		 
 		 }
 		 
 	}
@@ -136,7 +134,7 @@ public class NonAdminController {
 				 Alert alert = new Alert(AlertType.INFORMATION);
 				 alert.setTitle("Delete Album");
 				 alert.setHeaderText("Are you sure you want to delete this album?");
-				 alert.setContentText("Album Name: " + albums.get(removedIndex).name);
+				 alert.setContentText("Album Name: " + LoginController.currentUser.albums.get(removedIndex).name);
 
 				 Optional<ButtonType> result = alert.showAndWait();
 	 		   
@@ -158,7 +156,7 @@ public class NonAdminController {
 			 Optional<String> result = adddialog.showAndWait();
 			 if (result.isPresent())
 			 {
-				if(!result.get().isEmpty()&& !albums.contains(new Album(result.get()))){
+				if(!result.get().isEmpty()&& !LoginController.currentUser.albums.contains(new Album(result.get()))){
 					LoginController.currentUser.albums.add(new Album(result.get()));
 					updateList();
 				}
@@ -186,14 +184,14 @@ public class NonAdminController {
 				 TextInputDialog editdialog = new TextInputDialog("Rename Album name");
 				 editdialog.setTitle("Rename Album Name");
 				 editdialog.setHeaderText("Rename Album Name");
-				 editdialog.setContentText("Album name: " + albums.get(renameIndex).name);  
+				 editdialog.setContentText("Album name: " + LoginController.currentUser.albums.get(renameIndex).name);  
 			 
 				 Optional<String> result = editdialog.showAndWait();
 				 if (result.isPresent())
 				 { 
-					 if((!result.get().isEmpty() && !albums.contains(new Album(result.get()))) || 
-							 !result.get().isEmpty() && result.get().equals(albums.get(renameIndex).name)){
-						 albums.get(renameIndex).name = result.get();
+					 if((!result.get().isEmpty() && !LoginController.currentUser.albums.contains(new Album(result.get()))) || 
+							 !result.get().isEmpty() && result.get().equals(LoginController.currentUser.albums.get(renameIndex).name)){
+						 LoginController.currentUser.albums.get(renameIndex).name = result.get();
 						 updateList();
 					 }
 					 else{
@@ -222,7 +220,19 @@ public class NonAdminController {
 			alert.showAndWait();
 		}
 		else{
-			
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/view/albumview.fxml"));
+			AnchorPane root = null;
+			try {
+				root = (AnchorPane)loader.load();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			AlbumController controller = loader.getController();
+			controller.start(stage, LoginController.currentUser.albums.get(openIndex));
+			Scene scene = new Scene(root);
+			stage.setScene(scene);		
 			 
 		 }
 		

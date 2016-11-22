@@ -33,8 +33,6 @@ public class LoginController {
 		
 	}
 	
-	
-	
 	public void loginButton(ActionEvent e) {
 		 Button b = (Button)e.getSource();
 		 

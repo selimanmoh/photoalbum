@@ -2,65 +2,133 @@ package controller;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import model.Album;
 import model.Photo;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 
 public class AlbumController {
 	
 	@FXML Button deletePhoto, addPhoto, editCaption, tag, movePhoto, displayPhoto, logout;
+	@FXML ListView<String> listView = new ListView<String>();
+	ObservableList<String> photoList = FXCollections.observableArrayList();
+	Stage stage;
+	int albumIndex;
+	
+	public void start(Stage primaryStage, Album primaryAlbum) {
+		// TODO Auto-generated method stub
+		stage = primaryStage;
+		albumIndex = LoginController.currentUser.albums.indexOf(primaryAlbum);
+	}
+	
+	public void updateList(){
+		photoList.clear();
+		for(Photo photo: LoginController.currentUser.albums.get(albumIndex).photos) photoList.add(photo.caption);
+		
+		listView.setItems(photoList);
+	}
 	
 	public void pressButton(ActionEvent e) {
 		 Button b = (Button)e.getSource();
 		 
 		 if(b==logout)
 		 {
-			 //logout
+			 LoginController.currentUser = null; //current user is reset
+			 FXMLLoader loader = new FXMLLoader();
+			 loader.setLocation(getClass().getResource("/view/Login.fxml"));
+			 AnchorPane root = null;
+				try {
+					root = (AnchorPane)loader.load();
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+			 LoginController controller = loader.getController();
+			 controller.start(stage);
+			 Scene scene = new Scene(root);
+			 stage.setScene(scene);		 
+			 
 		 }
 		 
 		 else if(b==addPhoto)
 		 {
-			 JFileChooser chooser = new JFileChooser();
-			 FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & PNG Images", ".jpg", ".JPG", ".PNG", "png");
-			 chooser.setFileFilter(filter);
-			 
-			 //needs completion
+			FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");
+
+		    FileChooser fileChooser = new FileChooser();
+		    fileChooser.getExtensionFilters().add(imageFilter);
+		    File file = null;
+		    file = fileChooser.showOpenDialog(stage);
+		    
+		    
+		    if(file != null){
+		    BufferedImage image = null;
+		    try {
+		        image = ImageIO.read(file);
+		    } catch (IOException e1) {
+		    }
+		    
+		    LoginController.currentUser.albums.get(albumIndex).photos.add(new Photo(image));
+		    }
 		 }
 		 
 	}
 	
-	public void pressphotoButton(ActionEvent e, Photo photo) {
+	public void pressphotoButton(ActionEvent e) {
 		 Button b = (Button)e.getSource();
 		 
 		 if(b==deletePhoto)
 		 {
-			 Alert alert = new Alert(AlertType.INFORMATION);
-	 		   alert.setTitle("Delete Photo");
-	 		   alert.setHeaderText("Are you sure you want to delete this photo?");
-	 		   alert.setContentText("Photo Name: ");
+			 int removedIndex = listView.getSelectionModel().getSelectedIndex();
+			 
+			 if(removedIndex == -1){
+				Alert alert = new Alert (AlertType.INFORMATION);
+				alert.setTitle("Option failure");
+				alert.setHeaderText("Nothing is selected for you to delete!");
+				alert.showAndWait();
+			 }
+			 else{
+				 Alert alert = new Alert(AlertType.INFORMATION);
+				 alert.setTitle("Delete Album");
+				 alert.setHeaderText("Are you sure you want to delete this photo?");
+				 alert.setContentText("Album Name: " + LoginController.currentUser.albums.get(removedIndex).name);
 
-	 		   Optional<ButtonType> result = alert.showAndWait();
+				 Optional<ButtonType> result = alert.showAndWait();
 	 		   
-	 		  if (result.isPresent() && result.get() == ButtonType.OK) {
-	 		     //deletePhoto();
+		 		  if (result.isPresent() && result.get() == ButtonType.OK) {
+			 			 LoginController.currentUser.albums.get(albumIndex).photos.remove(LoginController.currentUser.albums.get(albumIndex).photos.get(removedIndex));
+			 			 
+	 		  }
+	 		 
+	 		   
+
 	 		 }
 		 }
 		 
 		 else if(b == editCaption)
 		 {
-			 TextInputDialog photoeditdialog = new TextInputDialog(photo.caption);
+			 /*TextInputDialog photoeditdialog = new TextInputDialog(photo.caption);
 			 //dialog.initOwner(mainStage); 
 			 photoeditdialog.setTitle("Edit Photo Caption");
 			 photoeditdialog.setHeaderText("Edit Photo Caption");
@@ -70,7 +138,7 @@ public class AlbumController {
 			 if (result.isPresent())
 			 { 
 				//change caption
-			 } 
+			 } */
 		 }
 		 
 		 else if(b == tag)
