@@ -1,3 +1,13 @@
+/*
+ * 
+ * @author Mohamed Seliman and Mohammad Hadi Uppal
+ * @version 1.0
+ * @since 11-11-2016
+ * 
+ * Primarily for Administrative Functionality for the default Administratos with the Username admin
+ */
+
+
 package controller;
 
 import java.io.IOException;

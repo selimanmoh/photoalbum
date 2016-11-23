@@ -1,3 +1,14 @@
+/*
+ * 
+ * @author Mohamed Seliman and Mohammad Hadi Uppal
+ * @version 1.0
+ * @since 11-11-2016
+ * 
+ * The User Controller contains functions like addAlbum, editAlbum, etc. all of which are the basic functions allotted to each user outside of the more
+ * integral photo view.
+ */
+
+
 package controller;
 
 import java.io.IOException;

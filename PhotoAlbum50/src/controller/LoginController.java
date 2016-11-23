@@ -1,3 +1,12 @@
+/*
+ * 
+ * @author Mohamed Seliman and Mohammad Hadi Uppal
+ * @version 1.0
+ * @since 11-11-2016
+ * 
+ * Primarily for the beginning of the program in which a user must enter his or her password to access the photo library.
+ */
+
 package controller;
 
 import java.io.FileInputStream;
@@ -106,7 +115,7 @@ public class LoginController {
 			
 			else {
 				
-				if(username.getText().equals("Admin")){				     
+				if(username.getText().equals("admin")){				     
 
 					FXMLLoader loader = new FXMLLoader();
 					loader.setLocation(getClass().getResource("/view/adminhome.fxml"));

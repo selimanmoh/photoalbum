@@ -2,7 +2,7 @@
  * 
  */
 /**
- * @author Mohammad Uppal & Mohamed Seliman
+ * @author Mohammad Uppal Mohamed Seliman
  *
  */
 package view;

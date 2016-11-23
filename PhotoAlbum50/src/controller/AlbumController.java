@@ -1,3 +1,12 @@
+/*
+ * 
+ * @author Mohamed Seliman and Mohammad Hadi Uppal
+ * @version 1.0
+ * @since 11-11-2016
+ * 
+ * Primarily for the Album controls and implementation, where there are multiple photo functions like displayPhoto, copyPhoto, and addPhoto.
+ */
+
 package controller;
 
 import java.io.File;

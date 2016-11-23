@@ -1,3 +1,12 @@
+/*
+ * 
+ * @author Mohamed Seliman and Mohammad Hadi Uppal
+ * @version 1.0
+ * @since 11-11-2016
+ * Primarily a controller for searching for Photos. The search has two features, search by date range and search by tags.
+ */
+
+
 package controller;
 
 import java.io.IOException;

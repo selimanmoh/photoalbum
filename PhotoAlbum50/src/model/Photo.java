@@ -1,3 +1,10 @@
+/*
+ * 
+ * @author Mohamed Seliman and Mohammad Hadi Uppal
+ * @version 1.0
+ * @since 11-11-2016
+ */
+
 package model;
 
 import java.io.Serializable;
@@ -17,6 +24,12 @@ public class Photo implements Serializable {
 	public String caption;
 	public Calendar calendar;
 	public ArrayList<Tag> tags;
+	
+	/*
+	 * The constructor uses the image, calendar, and imageURl to construct a Photo object.
+	 * @param image, calendar, imageURl. The image is self explanatory, whereas the calendar is the last modified date and the imageURL is the URL of the image.
+	 * @return nothing as it's a constructor.
+	 */
 	
 	public Photo(Image image, Calendar calendar, String imageURL){
 		this.thumbnail = image;

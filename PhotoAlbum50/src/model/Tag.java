@@ -1,3 +1,10 @@
+/*
+ * 
+ * @author Mohamed Seliman and Mohammad Hadi Uppal
+ * @version 1.0
+ * @since 11-11-2016
+ */
+
 package model;
 
 import java.io.Serializable;
@@ -10,6 +17,12 @@ public class Tag implements Serializable{
 	public String name;
 	public String value;
 	
+	
+	/*
+	 * The constructor name and value parameters to create a tag.
+	 * @param name and value Strings. The pair with which the tag is created.
+	 * @return nothing as it's a constructor.
+	 */
 	public Tag(String name, String value) {
 		this.name = name;
 		this.value = value;
