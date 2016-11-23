@@ -1,6 +1,13 @@
 package controller;
 
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
@@ -19,15 +26,67 @@ public class LoginController {
 	
 	@FXML Button login;
 	@FXML TextField username = new TextField();
-	public static ArrayList<User> users;
+	public static ArrayList<User> users = new ArrayList<User>();
 	public static User currentUser;
 	public Stage stage;
+	FileOutputStream fos;
 	
 	
 	public void start(Stage primaryStage) {
+	
+		if(users.isEmpty()){
+			FileInputStream fis;
+			try {
+				
+			fis = new FileInputStream("serializedFile.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            users = (ArrayList<User>) ois.readObject();
+            ois.close();
+            fis.close();
+            } 
+			catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				try {
+					FileOutputStream fos= new FileOutputStream("serializedFile.ser");
+					fos.close();
+				} catch (FileNotFoundException e1) {
+				} catch (IOException e1) {
+				}
+			} catch (IOException e) {
+			} catch (ClassNotFoundException e) {
+			}
+		}
+		else{
+			
+        	 FileOutputStream fos;
+			try {
+				fos = new FileOutputStream("serializedFile.ser");
+				ObjectOutputStream oos= new ObjectOutputStream(fos);
+	            oos.writeObject(users);
+	            oos.close();
+	            fos.close();
+			} catch (FileNotFoundException e) {
+			} catch (IOException e) {
+			}
+             
+        }
+   
 		
-		//Do serializable stuff here
-		users = new ArrayList<User>();
+		//Do shut down stuff here
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+	        public void run() {
+	            try{
+	            	FileOutputStream fos= new FileOutputStream("serializedFile.ser");
+	                ObjectOutputStream oos= new ObjectOutputStream(fos);
+	                oos.writeObject(users);
+	                oos.close();
+	                fos.close();
+	              }catch(IOException ioe){
+	                   ioe.printStackTrace();
+	               }
+	        }
+	    }));
 		stage = primaryStage;
 		
 		
