@@ -161,7 +161,7 @@ public class NonAdminController {
 				}
 				else{
 					Alert alert = new Alert (AlertType.INFORMATION);
-					alert.setTitle("Login Failure");
+					alert.setTitle("Album Add Failure");
 					alert.setHeaderText("You must enter a unique and proper album name");
 					alert.showAndWait();
 				}
@@ -174,7 +174,7 @@ public class NonAdminController {
 			 
 			 if(renameIndex == -1){
 				Alert alert = new Alert (AlertType.INFORMATION);
-				alert.setTitle("Login Failure");
+				alert.setTitle("Rename Failure");
 				alert.setHeaderText("Nothing is selected for you to rename!");
 				alert.showAndWait();
 			 }
@@ -195,7 +195,7 @@ public class NonAdminController {
 					 }
 					 else{
 						 Alert alert = new Alert (AlertType.INFORMATION);
-						 alert.setTitle("Login Failure");
+						 alert.setTitle("Rename Failure");
 						 alert.setHeaderText("You must enter a unique and proper album name");
 						 alert.showAndWait();	
 					 }
@@ -213,7 +213,7 @@ public class NonAdminController {
 		 
 		if(openIndex == -1){
 			Alert alert = new Alert (AlertType.INFORMATION);
-			alert.setTitle("Login Failure");
+			alert.setTitle("Open Album Failure");
 			alert.setHeaderText("Nothing is selected for you to open!");
 			alert.showAndWait();
 		}

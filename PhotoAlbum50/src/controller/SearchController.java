@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +32,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class SearchController {
 	
-	@FXML Button searchDate, searchTags, logout, tagGO, dateGO;
+	@FXML Button searchDate, searchTags, logout, tagGO, dateGO, makeAlbum, backAlbum;
 	@FXML ListView<Image> listView = new ListView<Image>();
 	@FXML ImageView imageDisplay;
 	@FXML TextField date1, date2, tagText;
@@ -95,6 +96,43 @@ public class SearchController {
 			 stage.setScene(scene);		 
 			 
 		 }
+		 else if(b == makeAlbum){
+			 
+			 TextInputDialog photoeditdialog = new TextInputDialog();
+			 photoeditdialog.setTitle("Create new Album");
+			 photoeditdialog.setHeaderText("Name your Album");
+			 photoeditdialog.setContentText("Album name: ");
+		 
+			 Optional<String> result = photoeditdialog.showAndWait();
+			 if (result.isPresent() && !result.get().isEmpty()){
+				 if(!LoginController.currentUser.albums.contains(new Album(result.get()))){
+					 Album newAlbum = new Album(result.get());
+					 fillAlbum(newAlbum);
+				 }
+				 else{
+					 Alert alert = new Alert (AlertType.INFORMATION);
+					 alert.setTitle("Album Creation Failure");
+					 alert.setHeaderText("You must enter a unique and proper album name");
+					 alert.showAndWait();					 
+				 }
+			 }
+		 }
+		 else if(b == backAlbum){
+			 
+			 FXMLLoader loader = new FXMLLoader();
+			 loader.setLocation(getClass().getResource("/view/nonadminhome.fxml"));
+			 AnchorPane root = null;
+				try {
+					root = (AnchorPane)loader.load();
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+			 NonAdminController controller = loader.getController();
+			 controller.start(stage);
+			 Scene scene = new Scene(root);
+			 stage.setScene(scene);		 
+		 }
 	}
 	
 	public void pressSearch(ActionEvent e) {
@@ -102,6 +140,7 @@ public class SearchController {
 		 
 		 searchList.clear();
 		 searchList.addAll(fullList);
+		 updateList();
 		 
 		 if(b == searchDate)
 		 {
@@ -156,7 +195,7 @@ public class SearchController {
 					cal.setTime(dte);
 					cal2.setTime(dte2);
 					calendarParse(cal, cal2);
-					
+
 					date1.setDisable(true);
 					date2.setDisable(true);
 					dateGO.setDisable(true);
@@ -179,20 +218,33 @@ public class SearchController {
 			}
 			else{
 				String tag = tagText.getText();
-				tagParse(tag.substring(0,tag.indexOf(',')), tag.substring(tag.indexOf(',')+1, tag.length()));
-				tagText.setDisable(true);
-				tagGO.setDisable(true);
-				searchDate.setDisable(false);
+				if(tag.indexOf(',')!=-1){
+					tagParse(tag.substring(0,tag.indexOf(',')), tag.substring(tag.indexOf(',')+1, tag.length()));
+				}
+				else{
+					Alert alert = new Alert (AlertType.INFORMATION);
+					alert.setTitle("Format failure");
+					alert.setHeaderText("Tag must be formatted correctly!");
+					alert.showAndWait();					
+					tagText.setDisable(true);
+					tagGO.setDisable(true);
+					searchDate.setDisable(false);
+				}
+				
 			}
 			
 		}
 	}
 	
+	
+	
 	public void calendarParse(Calendar cal1, Calendar cal2){
 		ArrayList<Photo> temp = new ArrayList<Photo>();
 		
-		for(Photo photo: searchList) if(!cal1.after(photo.calendar) && !cal2.before(photo.calendar)) temp.add(photo);
+		cal1.set(Calendar.HOUR_OF_DAY, 23);
+		cal2.set(Calendar.HOUR_OF_DAY, 23);
 		
+		for(Photo photo: searchList) if(!cal1.after(photo.calendar) && !cal2.before(photo.calendar)) temp.add(photo);
 		searchList.clear();
 		searchList.addAll(temp);
 		updateList();
@@ -206,6 +258,13 @@ public class SearchController {
 		searchList.clear();
 		searchList.addAll(temp);
 		updateList();
+	}
+	
+	public void fillAlbum(Album album){
+		
+		for(Photo photo: searchList) album.photos.add(photo);
+		
+		LoginController.currentUser.albums.add(album);
 	}
 	
 }

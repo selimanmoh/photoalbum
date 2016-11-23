@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchController">
    <children>
-      <ListView fx:id="listView" layoutX="60.0" layoutY="210.0" orientation="HORIZONTAL" prefHeight="150.0" prefWidth="893.0" />
+      <ListView fx:id="listView" layoutX="60.0" layoutY="210.0" orientation="HORIZONTAL" prefHeight="186.0" prefWidth="946.0" />
       <Button fx:id="searchTags" layoutX="49.0" layoutY="139.0" mnemonicParsing="false" onAction="#pressSearch" prefHeight="63.0" prefWidth="163.0" text="Search by Tags (Format: Type,Value)" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="15.0" />
@@ -36,5 +36,15 @@
       <Label layoutX="365.0" layoutY="69.0" text="To" />
       <Button fx:id="dateGO" disable="true" layoutX="529.0" layoutY="64.0" mnemonicParsing="false" onAction="#extraPress" text="GO" />
       <Button fx:id="tagGO" disable="true" layoutX="377.0" layoutY="155.0" mnemonicParsing="false" onAction="#extraPress" text="GO" />
+      <Button fx:id="makeAlbum" layoutX="49.0" layoutY="421.0" mnemonicParsing="false" onAction="#pressButton" prefHeight="63.0" prefWidth="147.0" text="Make an Album">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="backAlbum" layoutX="14.0" layoutY="571.0" mnemonicParsing="false" onAction="#pressButton" prefHeight="74.0" prefWidth="65.0" text="Back">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
