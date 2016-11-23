@@ -114,13 +114,12 @@ public class AlbumController {
 				imgURL = file.toURI().toURL().toExternalForm();
 			} catch (MalformedURLException e2) {
 				// TODO Auto-generated catch block
-				e2.printStackTrace();
 			}
 		    Calendar calendar = Calendar.getInstance();
 	    	calendar.setTime(new Date(file.lastModified()));
 	    	
-		    if(!LoginController.currentUser.albums.get(albumIndex).photos.contains(new Photo(new Image(imgURL), calendar))){
-		    	LoginController.currentUser.albums.get(albumIndex).photos.add(new Photo(new Image(imgURL), calendar));
+		    if(!LoginController.currentUser.albums.get(albumIndex).photos.contains(new Photo(new Image(imgURL), calendar,imgURL))){
+		    	LoginController.currentUser.albums.get(albumIndex).photos.add(new Photo(new Image(imgURL), calendar, imgURL));
 		    	updateList();
 		    }
 		    else{
@@ -302,7 +301,10 @@ public class AlbumController {
 			 }
 			 else{
 		 		Photo pho = LoginController.currentUser.albums.get(albumIndex).photos.get(displayIndex);
-			 	imageDisplay.setImage(pho.thumbnail);
+		 		if(pho.thumbnail != null)
+		 			imageDisplay.setImage(pho.thumbnail);
+		 		else
+		 			imageDisplay.setImage(new Image(pho.imageURL));	
 			 	//imageDisplay.setPreserveRatio(true);
 			 	imageDisplay.setFitHeight(imageDisplay.getFitHeight());
 			 	imageDisplay.setFitWidth(imageDisplay.getFitWidth());

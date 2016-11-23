@@ -1,0 +1,4 @@
+Users:
+Mark {Albums: Beach, Snow Mountain, Schoollife {Photos: {homework.png caption: work for life, tags{(Location, NJ)}}}}
+Sally {Albums: Winter, Pregnancy{Photos: {Baby Belly.png caption: Love, tags{(Location, CA)}}}}
+Fenton{Albums: Friends{Photos: {SmilingDanny.png caption: Smiles for everyone, tags{(Location, NM), (Level, Secret)}}}, Neighbors, Enemies, Leftovers}
